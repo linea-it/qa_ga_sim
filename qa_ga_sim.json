@@ -1,0 +1,5 @@
+{
+    "pars_simulations_file": "/home/adriano.pieres/public_html/gawa_processes/00014/simulations/ga_sim.json",
+    "table_star_clusters_file": "/home/adriano.pieres/public_html/gawa_processes/00014/simulations/star_clusters_simulated.dat",
+    "export_file": "/home/adriano.pieres/public_html/gawa_processes/00014/qa_simulations/index.html"
+}

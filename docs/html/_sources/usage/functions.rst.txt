@@ -6,7 +6,8 @@ Functions
 | used in the main code to simulate stellar clusters.
 
 
-=========
+List of functions
+=================
 
 .. automodule:: qa_ga_sim.qa_ga_sim
     :members:

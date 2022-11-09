@@ -445,13 +445,13 @@ def general_plots(star_clusters_simulated, output_dir):
     plt.close()
 
 
-def plot_ftp(ftp_fits, star_clusters_simulated, mockcat, ra_max, ra_min, dec_min, dec_max, output_dir):
+def plot_ftp(ftp_dir, nside, star_clusters_simulated, ra_max, ra_min, dec_min, dec_max, output_dir):
     """Plot footprint map to check area.
 
     Parameters
     ----------
-    ftp_fits : str
-        Name of footprint map.
+    ftp_dir : str
+        Path to footprint mosaic map.
     star_clusters_simulated : str
         File name of table with features of simulated clusters.
     mockcat : str
@@ -467,15 +467,12 @@ def plot_ftp(ftp_fits, star_clusters_simulated, mockcat, ra_max, ra_min, dec_min
     output_dir : str
         Folder where to insert final plots.
     """
-    nside = 4096
-    npix = hp.nside2npix(nside)
 
     cmap = plt.cm.inferno_r
 
-    # data = getdata("ftp_4096_nest.fits")
-    data = getdata(ftp_fits)
-
-    pix_ftp = data["HP_PIXEL_NEST_4096"]
+    fits_files = glob.glob(ftp_dir + '/*.*')
+    
+    pix_ftp = [int(i.split('/')[-1][:-5]) for i in fits_files]
 
     ra_pix_ftp, dec_pix_ftp = hp.pix2ang(
         nside, pix_ftp, nest=True, lonlat=True)
@@ -743,7 +740,7 @@ def plots_ang_size(star_clusters_simulated, clus_path, mmin, mmax, cmin, cmax, o
     plt.show()
 
 
-def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plots=Path("results")):
+def plot_err(hpx_cats_clean, sample):
     """Plot the magnitude and error of the simulated clusters compared to the
     real stars, in log scale.
 
@@ -754,14 +751,23 @@ def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plot
     output_plots : _type_, optional
         _description_, by default Path("results")
     """
-    mockcat = Path(mockcat)
+    cats = glob.glob(hpx_cats_clean + '/*.*')
 
-    hdu = fits.open(mockcat, memmap=True)
-    GC = hdu[1].data.field("GC")
+    cats_sampled  = cats[0:sample-1]
 
-    mag_g_with_err = hdu[1].data.field("mag_g_with_err")
-    magerr_g = hdu[1].data.field("magerr_g")
-    hdu.close()
+    GC = []
+    mag_g_with_err = []
+    magerr_g = []
+
+    for i in cats_sampled:
+        hdu = fits.open(i, memmap=True)
+        GC_ = hdu[1].data.field("GC")
+        mag_g_with_err_ = hdu[1].data.field("mag_g_with_err")
+        magerr_g_ = hdu[1].data.field("magerr_g")
+        hdu.close()
+        GC.extend(GC_)
+        mag_g_with_err.extend(mag_g_with_err_)
+        magerr_g.extend(magerr_g_)
 
     plt.scatter(mag_g_with_err[GC == 0],
                 magerr_g[GC == 0], label="Field stars", c="k")
@@ -777,7 +783,8 @@ def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plot
     plt.ylabel("magerr_g")
     plt.legend()
 
-    filepath = Path(output_plots, "simulated_stars_err.png")
-    plt.savefig(filepath)
-    plt.show()
-    plt.close()
+    # In case the plot should be saved:
+    # filepath = Path(output_plots, "simulated_stars_err.png")
+    # plt.savefig(filepath)
+    # plt.show()
+    # plt.close()

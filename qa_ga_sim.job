@@ -1,0 +1,10 @@
+        getenv         = True
+        Executable     = /lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/env.sh
+        Universe       = vanilla
+        Notification   = Always
+        Output         = /lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/condor_run/out
+        Error          = /lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/condor_run/err
+        Log            = /lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/condor_run/log
+        # +RequiresWholeMachine = True
+
+        Queue 1

@@ -175,7 +175,8 @@ def plot_cmd_clean(ipix_clean_cats, mmin, mmax, cmin, cmax, magg_str, magr_str, 
         #cbar.ax1.set_xticklabels(np.linspace(0., np.max(H), 5),rotation=0)
         # plt.tight_layout()
         plt.subplots_adjust(wspace=0.2)
-        plt.show()
+        plt.savefig('{:d}_cats_clean.png'.format(ipix))
+        # plt.show()
 
     #plt.savefig(output_dir + '/CMD_ipix.png')
     # plt.show()
@@ -251,6 +252,8 @@ def plot_clusters_clean(ipix_cats, ipix_clean_cats, nside, ra_str, dec_str, half
     len_ipix = len(ipix_clean_cats)
 
     ipix = [int((i.split('/')[-1]).split('.')[0]) for i in ipix_cats]
+
+    print(ipix)
 
     ra_cen, dec_cen = hp.pix2ang(nside, ipix, nest=True, lonlat=True)
 
@@ -354,9 +357,9 @@ def plot_clusters_clean(ipix_cats, ipix_clean_cats, nside, ra_str, dec_str, half
                 ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
 
             plt.subplots_adjust(wspace=0, hspace=0)
-            # plt.savefig(output_dir + '/clusters_with_and_without_crowded_stars.png')
-            plt.show()
-            # plt.close()
+            plt.savefig('{}/{}clusters_with_and_without_crowded_stars.png'.format(output_dir, ipix[i]))
+            # plt.show()
+            plt.close()
 
 
 def general_plots(star_clusters_simulated, output_dir):

@@ -131,52 +131,57 @@ def plot_cmd_clean(ipix_clean_cats, mmin, mmax, cmin, cmax, magg_str, magr_str, 
 
         f, ((ax1, ax2, ax3)) = plt.subplots(1, 3, figsize=(12, 6), dpi=150)
 
-        H, xedges, yedges = np.histogram2d(
+        H1, xedges, yedges = np.histogram2d(
             magg-magr, magg, bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax1.set_title('CMD Ipix {}'.format(ipix))
+        ax1.set_title('CMD Ipix {} ({:d} stars)'.format(ipix, len(magg)))
         ax1.set_xlim([cmin, cmax])
         ax1.set_ylim([mmax, mmin])
         ax1.set_xlabel('g - r')
         ax1.set_ylabel('g')
         ax1.grid(True, lw=0.2)
-        im1 = ax1.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap, norm=LogNorm())
-        cbaxes = f.add_axes([0.355, 0.126, 0.01, 0.750])
-        cbar = f.colorbar(im1, cax=cbaxes, cmap=cmap, orientation='vertical')
 
         bkg = (GC == 0)
-        H, xedges, yedges = np.histogram2d(
+        H2, xedges, yedges = np.histogram2d(
             magg[bkg]-magr[bkg], magg[bkg], bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax2.set_title('CMD Ipix {} Bkg stars'.format(ipix))
+        ax2.set_title('CMD Ipix {}. Bkg ({:d}) stars'.format(ipix, len(magg[bkg])))
         ax2.set_xlim([cmin, cmax])
         ax2.set_ylim([mmax, mmin])
         ax2.set_xlabel('g - r')
         ax2.set_yticks([])
         ax2.grid(True, lw=0.2)
-        im2 = ax2.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap, norm=LogNorm())
-        cbaxes = f.add_axes([0.6275, 0.126, 0.01, 0.750])
-        cbar = f.colorbar(im2, cax=cbaxes, cmap=cmap, orientation='vertical')
 
         cls = (GC == 1)
-        H, xedges, yedges = np.histogram2d(
+        H3, xedges, yedges = np.histogram2d(
             magg[cls]-magr[cls], magg[cls], bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax3.set_title('CMD Ipix {} Cluster stars'.format(ipix))
+        ax3.set_title('CMD Ipix {}. Cluster ({:d}) stars'.format(ipix, len(magg[cls])))
         ax3.set_xlim([cmin, cmax])
         ax3.set_ylim([mmax, mmin])
         ax3.set_yticks([])
         ax3.set_xlabel('g - r')
         ax3.grid(True, lw=0.2)
-        im3 = ax3.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap)
+
+        vmin = 0.
+        vmax = max(np.max(H1), max(np.max(H2), np.max(H3)))
+        im1 = ax1.imshow(H1.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
+        cbaxes = f.add_axes([0.355, 0.126, 0.01, 0.750])
+        cbar = f.colorbar(im1, cax=cbaxes, cmap=cmap, orientation='vertical')
+
+        im2 = ax2.imshow(H2.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
+        cbaxes = f.add_axes([0.6275, 0.126, 0.01, 0.750])
+        cbar = f.colorbar(im2, cax=cbaxes, cmap=cmap, orientation='vertical')
+
+        im3 = ax3.imshow(H3.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
 
         cbaxes = f.add_axes([0.90, 0.126, 0.01, 0.750])
         cbar = f.colorbar(im3, cax=cbaxes, cmap=cmap, orientation='vertical')
         #cbar.ax1.set_xticklabels(np.linspace(0., np.max(H), 5),rotation=0)
         # plt.tight_layout()
         plt.subplots_adjust(wspace=0.2)
-        plt.savefig('{:d}_cats_clean.png'.format(ipix))
-        # plt.show()
+        # plt.savefig('{}_cats_clean.png'.format(ipix))
+        plt.show()
 
     #plt.savefig(output_dir + '/CMD_ipix.png')
     # plt.show()
@@ -357,9 +362,9 @@ def plot_clusters_clean(ipix_cats, ipix_clean_cats, nside, ra_str, dec_str, half
                 ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
 
             plt.subplots_adjust(wspace=0, hspace=0)
-            plt.savefig('{}/{}clusters_with_and_without_crowded_stars.png'.format(output_dir, ipix[i]))
-            # plt.show()
-            plt.close()
+            # plt.savefig('{}/{}clusters_with_and_without_crowded_stars.png'.format(output_dir, ipix[i]))
+            plt.show()
+            # plt.close()
 
 
 def general_plots(star_clusters_simulated, output_dir):
@@ -442,7 +447,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax3.set_xlabel("mass(Msun)")
     ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend()
+    ax3.legend(loc=3)
     plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()

@@ -15,6 +15,29 @@ from astropy.coordinates import SkyCoord
 mpl.rcParams["legend.numpoints"] = 1
 
 
+def plot_stellar_dens(param):
+    
+    globals().update(param)
+    
+    files = glob.glob(hpx_cats_clean_path + '/*.fits')
+    
+    GC = []
+    ipix = [int(i.split('/')[-1][:-5]) for i in files]
+    
+    for ii, jj in enumerate(files):
+        data = fits.getdata(jj)
+        GCs = data['GC']
+        GC.append(len(GCs[GCs == 0]))
+    
+    GC_dens = np.divide(GC, hp.nside2pixarea(nside_ini, degrees=True))
+    mapp = np.zeros(hp.nside2npix(nside_ini))
+    
+    for ii, jj in enumerate(GC):
+        mapp[ipix[ii]] = GC_dens[ii]
+    
+    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens[GC_dens != 0.]), max=np.max(GC_dens))
+    plt.show()
+
 def radec2GCdist(ra, dec, dist_kpc):
     """
     Return Galactocentric distance from ra, dec, D_sun_kpc.

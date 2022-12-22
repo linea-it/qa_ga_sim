@@ -15,6 +15,29 @@ from astropy.coordinates import SkyCoord
 mpl.rcParams["legend.numpoints"] = 1
 
 
+def plot_stellar_dens(param):
+    
+    globals().update(param)
+    
+    files = glob.glob(hpx_cats_clean_path + '/*.fits')
+    
+    GC = []
+    ipix = [int(i.split('/')[-1][:-5]) for i in files]
+    
+    for ii, jj in enumerate(files):
+        data = fits.getdata(jj)
+        GCs = data['GC']
+        GC.append(len(GCs[GCs == 0]))
+    
+    GC_dens = np.divide(GC, hp.nside2pixarea(nside_ini, degrees=True))
+    mapp = np.zeros(hp.nside2npix(nside_ini))
+    
+    for ii, jj in enumerate(GC):
+        mapp[ipix[ii]] = GC_dens[ii]
+    
+    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens[GC_dens != 0.]), max=np.max(GC_dens))
+    plt.show()
+
 def radec2GCdist(ra, dec, dist_kpc):
     """
     Return Galactocentric distance from ra, dec, D_sun_kpc.
@@ -131,50 +154,56 @@ def plot_cmd_clean(ipix_clean_cats, mmin, mmax, cmin, cmax, magg_str, magr_str, 
 
         f, ((ax1, ax2, ax3)) = plt.subplots(1, 3, figsize=(12, 6), dpi=150)
 
-        H, xedges, yedges = np.histogram2d(
+        H1, xedges, yedges = np.histogram2d(
             magg-magr, magg, bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax1.set_title('CMD Ipix {}'.format(ipix))
+        ax1.set_title('CMD Ipix {} ({:d} stars)'.format(ipix, len(magg)))
         ax1.set_xlim([cmin, cmax])
         ax1.set_ylim([mmax, mmin])
         ax1.set_xlabel('g - r')
         ax1.set_ylabel('g')
         ax1.grid(True, lw=0.2)
-        im1 = ax1.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap, norm=LogNorm())
-        cbaxes = f.add_axes([0.355, 0.126, 0.01, 0.750])
-        cbar = f.colorbar(im1, cax=cbaxes, cmap=cmap, orientation='vertical')
 
         bkg = (GC == 0)
-        H, xedges, yedges = np.histogram2d(
+        H2, xedges, yedges = np.histogram2d(
             magg[bkg]-magr[bkg], magg[bkg], bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax2.set_title('CMD Ipix {} Bkg stars'.format(ipix))
+        ax2.set_title('CMD Ipix {}. Bkg ({:d}) stars'.format(ipix, len(magg[bkg])))
         ax2.set_xlim([cmin, cmax])
         ax2.set_ylim([mmax, mmin])
         ax2.set_xlabel('g - r')
         ax2.set_yticks([])
         ax2.grid(True, lw=0.2)
-        im2 = ax2.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap, norm=LogNorm())
-        cbaxes = f.add_axes([0.6275, 0.126, 0.01, 0.750])
-        cbar = f.colorbar(im2, cax=cbaxes, cmap=cmap, orientation='vertical')
 
         cls = (GC == 1)
-        H, xedges, yedges = np.histogram2d(
+        H3, xedges, yedges = np.histogram2d(
             magg[cls]-magr[cls], magg[cls], bins=n_bins, range=[[cmin, cmax], [mmin, mmax]])
-        ax3.set_title('CMD Ipix {} Cluster stars'.format(ipix))
+        ax3.set_title('CMD Ipix {}. Cluster ({:d}) stars'.format(ipix, len(magg[cls])))
         ax3.set_xlim([cmin, cmax])
         ax3.set_ylim([mmax, mmin])
         ax3.set_yticks([])
         ax3.set_xlabel('g - r')
         ax3.grid(True, lw=0.2)
-        im3 = ax3.imshow(H.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
-                         cmap=cmap)
+
+        vmin = 0.
+        vmax = max(np.max(H1), max(np.max(H2), np.max(H3)))
+        im1 = ax1.imshow(H1.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
+        cbaxes = f.add_axes([0.355, 0.126, 0.01, 0.750])
+        cbar = f.colorbar(im1, cax=cbaxes, cmap=cmap, orientation='vertical')
+
+        im2 = ax2.imshow(H2.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
+        cbaxes = f.add_axes([0.6275, 0.126, 0.01, 0.750])
+        cbar = f.colorbar(im2, cax=cbaxes, cmap=cmap, orientation='vertical')
+
+        im3 = ax3.imshow(H3.T, extent=[cmin, cmax, mmax, mmin], aspect='auto', interpolation='None',
+                         cmap=cmap, vmin=vmin, vmax=vmax)
 
         cbaxes = f.add_axes([0.90, 0.126, 0.01, 0.750])
         cbar = f.colorbar(im3, cax=cbaxes, cmap=cmap, orientation='vertical')
         #cbar.ax1.set_xticklabels(np.linspace(0., np.max(H), 5),rotation=0)
         # plt.tight_layout()
         plt.subplots_adjust(wspace=0.2)
+        # plt.savefig('{}_cats_clean.png'.format(ipix))
         plt.show()
 
     #plt.savefig(output_dir + '/CMD_ipix.png')
@@ -251,6 +280,8 @@ def plot_clusters_clean(ipix_cats, ipix_clean_cats, nside, ra_str, dec_str, half
     len_ipix = len(ipix_clean_cats)
 
     ipix = [int((i.split('/')[-1]).split('.')[0]) for i in ipix_cats]
+
+    print(ipix)
 
     ra_cen, dec_cen = hp.pix2ang(nside, ipix, nest=True, lonlat=True)
 
@@ -354,7 +385,7 @@ def plot_clusters_clean(ipix_cats, ipix_clean_cats, nside, ra_str, dec_str, half
                 ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
 
             plt.subplots_adjust(wspace=0, hspace=0)
-            # plt.savefig(output_dir + '/clusters_with_and_without_crowded_stars.png')
+            # plt.savefig('{}/{}clusters_with_and_without_crowded_stars.png'.format(output_dir, ipix[i]))
             plt.show()
             # plt.close()
 
@@ -439,19 +470,19 @@ def general_plots(star_clusters_simulated, output_dir):
     ax3.set_xlabel("mass(Msun)")
     ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend()
+    ax3.legend(loc=3)
     plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
 
 
-def plot_ftp(ftp_fits, star_clusters_simulated, mockcat, ra_max, ra_min, dec_min, dec_max, output_dir):
+def plot_ftp(ftp_dir, nside, star_clusters_simulated, ra_max, ra_min, dec_min, dec_max, output_dir):
     """Plot footprint map to check area.
 
     Parameters
     ----------
-    ftp_fits : str
-        Name of footprint map.
+    ftp_dir : str
+        Path to footprint mosaic map.
     star_clusters_simulated : str
         File name of table with features of simulated clusters.
     mockcat : str
@@ -467,15 +498,12 @@ def plot_ftp(ftp_fits, star_clusters_simulated, mockcat, ra_max, ra_min, dec_min
     output_dir : str
         Folder where to insert final plots.
     """
-    nside = 4096
-    npix = hp.nside2npix(nside)
 
     cmap = plt.cm.inferno_r
 
-    # data = getdata("ftp_4096_nest.fits")
-    data = getdata(ftp_fits)
-
-    pix_ftp = data["HP_PIXEL_NEST_4096"]
+    fits_files = glob.glob(ftp_dir + '/*.*')
+    
+    pix_ftp = [int(i.split('/')[-1][:-5]) for i in fits_files]
 
     ra_pix_ftp, dec_pix_ftp = hp.pix2ang(
         nside, pix_ftp, nest=True, lonlat=True)
@@ -743,7 +771,7 @@ def plots_ang_size(star_clusters_simulated, clus_path, mmin, mmax, cmin, cmax, o
     plt.show()
 
 
-def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plots=Path("results")):
+def plot_err(hpx_cats_clean, sample):
     """Plot the magnitude and error of the simulated clusters compared to the
     real stars, in log scale.
 
@@ -754,14 +782,23 @@ def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plot
     output_plots : _type_, optional
         _description_, by default Path("results")
     """
-    mockcat = Path(mockcat)
+    cats = glob.glob(hpx_cats_clean + '/*.*')
 
-    hdu = fits.open(mockcat, memmap=True)
-    GC = hdu[1].data.field("GC")
+    cats_sampled  = cats[0:sample-1]
 
-    mag_g_with_err = hdu[1].data.field("mag_g_with_err")
-    magerr_g = hdu[1].data.field("magerr_g")
-    hdu.close()
+    GC = []
+    mag_g_with_err = []
+    magerr_g = []
+
+    for i in cats_sampled:
+        hdu = fits.open(i, memmap=True)
+        GC_ = hdu[1].data.field("GC")
+        mag_g_with_err_ = hdu[1].data.field("mag_g_with_err")
+        magerr_g_ = hdu[1].data.field("magerr_g")
+        hdu.close()
+        GC.extend(GC_)
+        mag_g_with_err.extend(mag_g_with_err_)
+        magerr_g.extend(magerr_g_)
 
     plt.scatter(mag_g_with_err[GC == 0],
                 magerr_g[GC == 0], label="Field stars", c="k")
@@ -777,7 +814,8 @@ def plot_err(mockcat=Path("results/des_mockcat_for_detection.fits"), output_plot
     plt.ylabel("magerr_g")
     plt.legend()
 
-    filepath = Path(output_plots, "simulated_stars_err.png")
-    plt.savefig(filepath)
-    plt.show()
-    plt.close()
+    # In case the plot should be saved:
+    # filepath = Path(output_plots, "simulated_stars_err.png")
+    # plt.savefig(filepath)
+    # plt.show()
+    # plt.close()

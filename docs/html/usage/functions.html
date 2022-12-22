@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Functions &mdash; qa_ga_sim 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Acknowledgments" href="about.html" />
+    <link rel="prev" title="QuickStart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> qa_ga_sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-qa_ga_sim.qa_ga_sim">List of functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">Acknowledgments</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">qa_ga_sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h1>
+<div class="line-block">
+<div class="line">Below we present some information about the functions</div>
+<div class="line">used in the main code to simulate stellar clusters.</div>
+</div>
+<section id="module-qa_ga_sim.qa_ga_sim">
+<span id="list-of-functions"></span><h2>List of functions<a class="headerlink" href="#module-qa_ga_sim.qa_ga_sim" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.export_results">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">export_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.export_results" title="Permalink to this definition"></a></dt>
+<dd><p>This function exports the results of the run to a directory called proc_dir,
+creating a subfolder with number following the last process in that folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proc_dir</strong> (<em>str</em>) – Directory where the subfolder with all the results will be copied to.</p></li>
+<li><p><strong>res_path</strong> (<em>str</em>) – Directory to insert the results of the plots and jupyter notebook.</p></li>
+<li><p><strong>copy_path</strong> (<em>str</em>) – Directory to copy results in order to make them visible.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.general_plots">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">general_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">star_clusters_simulated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.general_plots" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a few plots comparing features of simulated clusters to real objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>star_clusters_simulated</strong> (<em>str</em>) – File name of the table with all the features of simulated clusters.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Folder to insert final plots.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.plot_clusters_clean">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">plot_clusters_clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipix_cats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipix_clean_cats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nside</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ra_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_size_plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st_line_arcsec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.plot_clusters_clean" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a few scatter plots showing how the observational bias affects regions
+close to the center of simulated clusters. A bar with angular size is shown to
+the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ipix_cats</strong> (<em>list</em>) – List of catalogs with all stars.</p></li>
+<li><p><strong>ipix_clean_cats</strong> (<em>list</em>) – List of catalogs with stars filtered.</p></li>
+<li><p><strong>nside</strong> (<em>int</em>) – Nside of pixelizations.</p></li>
+<li><p><strong>ra_str</strong> (<em>str</em>) – RA label to be read in FITS catalog.</p></li>
+<li><p><strong>dec_str</strong> (<em>str</em>) – DEC label to be read in FITS catalog.</p></li>
+<li><p><strong>half_size_plot</strong> (<em>float</em><em>, </em><em>optional</em>) – Size to be seen on plots. Usually twice the angular size of exponential
+profiles of clusters. Units: degrees.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Folder where the plots will be saved.</p></li>
+<li><p><strong>st_line_arcsec</strong> (<em>float</em><em>, </em><em>by default 10.</em>) – Size of a ruler shown in the plots. Unit: arcsec</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.plot_cmd_clean">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">plot_cmd_clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipix_clean_cats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magg_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magr_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GC_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.plot_cmd_clean" title="Permalink to this definition"></a></dt>
+<dd><p>Makes 2D histogram of Color-Magnitude Diagrams of simulated clusters and field stars.
+Very similar to Hess diagrams but not accounting likely to stars to belong to a bin,</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ipix_clean_cats</strong> (<em>str</em>) – Set of pixels (small catalogs partitioned following HealPix schemma) to be read.</p></li>
+<li><p><strong>mmin</strong> (<em>float</em>) – Minimum magnitude.</p></li>
+<li><p><strong>mmax</strong> (<em>float</em>) – Maximum magnitude.</p></li>
+<li><p><strong>cmin</strong> (<em>float</em>) – Minimum color.</p></li>
+<li><p><strong>cmax</strong> (<em>float</em>) – Maximum color.</p></li>
+<li><p><strong>magg_str</strong> (<em>str</em>) – Bluer magnitude label to be read in FITS catalog.</p></li>
+<li><p><strong>magr_str</strong> (<em>str</em>) – Redder magnitude label to be read in FITS catalog.</p></li>
+<li><p><strong>GC_str</strong> (<em>_type_</em>) – Lable of stars belonging to simulated clusters in FITS catalog. Usually ‘GC’.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em> (</em><em>path</em><em>)</em>) – Folder to insert final plots.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.plot_err">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">plot_err</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mockcat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('results/des_mockcat_for_detection.fits')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('results')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.plot_err" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the magnitude and error of the simulated clusters compared to the
+real stars, in log scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mockcat</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default Path(“results/des_mockcat_for_detection.fits”)</p></li>
+<li><p><strong>output_plots</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default Path(“results”)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.plot_ftp">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">plot_ftp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftp_fits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">star_clusters_simulated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mockcat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ra_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ra_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.plot_ftp" title="Permalink to this definition"></a></dt>
+<dd><p>Plot footprint map to check area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ftp_fits</strong> (<em>str</em>) – Name of footprint map.</p></li>
+<li><p><strong>star_clusters_simulated</strong> (<em>str</em>) – File name of table with features of simulated clusters.</p></li>
+<li><p><strong>mockcat</strong> (<em>str</em>) – File name of table with field stars and stars from simulated clusters.</p></li>
+<li><p><strong>ra_max</strong> (<em>float</em>) – Maximum in range of RA (deg).</p></li>
+<li><p><strong>ra_min</strong> (<em>float</em>) – Minimum in range of RA (deg).</p></li>
+<li><p><strong>dec_min</strong> (<em>float</em>) – Minimum in range of DEC (deg).</p></li>
+<li><p><strong>dec_max</strong> (<em>float</em>) – Maximum in range of DEC (deg).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Folder where to insert final plots.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.plots_ang_size">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">plots_ang_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">star_clusters_simulated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clus_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_plots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FeH_iso</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.plots_ang_size" title="Permalink to this definition"></a></dt>
+<dd><p>” Makes a series of plots showing the distribution of simulated clusters (along real
+objects) in terms of distances, angular sizes, absolute magnitudes, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>star_clusters_simulated</strong> (<em>str</em>) – File name of table with features of simulated clusters.</p></li>
+<li><p><strong>clus_path</strong> (<em>str</em>) – Folder to files with simulated clusters.</p></li>
+<li><p><strong>mmin</strong> (<em>float</em>) – Minimum in range of magnitude.</p></li>
+<li><p><strong>mmax</strong> (<em>float</em>) – Maximum in range of magnitude.</p></li>
+<li><p><strong>cmin</strong> (<em>float</em>) – Minimum in range of color.</p></li>
+<li><p><strong>cmax</strong> (<em>float</em>) – Maximum in range of color.</p></li>
+<li><p><strong>output_plots</strong> (<em>str</em>) – Folder to write final plots.</p></li>
+<li><p><strong>FeH_iso</strong> (<em>float</em>) – Metalicity of the isochrone that served as stellar model to simulated clusters.
+Value in [Fe/H] (not Z).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.radec2GCdist">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">radec2GCdist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ra</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_kpc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.radec2GCdist" title="Permalink to this definition"></a></dt>
+<dd><p>Return Galactocentric distance from ra, dec, D_sun_kpc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ra</strong> (<em>float</em><em> or </em><em>list</em>) – Coordinates of the objects (in deg)</p></li>
+<li><p><strong>dec</strong> (<em>float</em><em> or </em><em>list</em>) – Coordinates of the objects (in deg)</p></li>
+<li><p><strong>dist_kpc</strong> (<em>float</em><em> or </em><em>list</em>) – Distance in kpc of the objects to the Sun.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Galactocentric distance to the object[s].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float of list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qa_ga_sim.qa_ga_sim.read_real_cat">
+<span class="sig-prename descclassname"><span class="pre">qa_ga_sim.qa_ga_sim.</span></span><span class="sig-name descname"><span class="pre">read_real_cat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat_DG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'catalogs/objects_in_ref.dat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cat_GC</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'catalogs/Harris_updated.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qa_ga_sim.qa_ga_sim.read_real_cat" title="Permalink to this definition"></a></dt>
+<dd><p>Read catalogs of real objects in a convenient way.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cat_DG</strong> (<em>str</em><em>, </em><em>optional</em>) – Catalog of dwarf galaxies, by default “catalogs/objects_in_ref.dat”</p></li>
+<li><p><strong>cat_GC</strong> (<em>str</em><em>, </em><em>optional</em>) – Catalog of globular clusters (in this case Harris 2010), by default “catalogs/Harris_updated.dat”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List with many features of objects.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="QuickStart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral float-right" title="Acknowledgments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Adriano Pieres.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

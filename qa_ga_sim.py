@@ -8,7 +8,7 @@ import astropy.io.fits as fits
 from astropy.io.fits import getdata
 from pathlib import Path
 import healpy as hp
-import sqlalchemy, json, os, sys, glob
+import json, os, sys, glob
 from qa_ga_sim import (
     export_results
 )

@@ -38,6 +38,40 @@ def plot_stellar_dens(param):
     hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens[GC_dens != 0.]), max=np.max(GC_dens))
     plt.show()
 
+    '''
+    hp.cartview(mapp, unit='', coord='C', lonra=[ra_min, ra_max], latra=[dec_min, dec_max], title='Cartesian view', nest=True, cbar=True, min=np.min(GC_dens[GC_dens != 0.]), max=np.max(GC_dens), cmap=None, badcolor='gray', bgcolor='white', aspect=None, hold=False, sub=None, reuse_axes=False, margins=None, notext=False, return_projected_map=False, alpha=None)
+    plt.show()
+    '''
+    test = hp.cartview(
+        mapp,
+        nest=True,
+        lonra=[ra_min, ra_max],
+        latra=[dec_min, dec_max],
+        hold=True,
+        cbar=False,
+        title="",
+        return_projected_map=True,
+    )
+    plt.clf()
+
+    fig, axs = plt.subplots(1, 1, figsize=(8, 10))
+    cbar = axs.imshow(
+        test,
+        origin="lower",
+        extent=(ra_max, ra_min, dec_min, dec_max),
+        interpolation="none",
+    )
+    axs.set_xlim([ra_max, ra_min])
+    axs.set_ylim([dec_min, dec_max])
+    axs.set_xlabel("RA (deg)")
+    axs.set_ylabel("DEC (deg)")
+    axs.set_title("2D Hist of density of MW stars")
+    axs.grid()
+    plt.colorbar(cbar,fraction=0.046, pad=0.04, label='density of stars per square degree')
+    #  plt.savefig(output_dir + '/ftp.png')
+    plt.show()
+
+
 def radec2GCdist(ra, dec, dist_kpc):
     """
     Return Galactocentric distance from ra, dec, D_sun_kpc.
@@ -280,8 +314,8 @@ def plot_clusters_clean(param):
  
     globals().update(param)
 
-    ipix_clean_cats = glob.glob(hpx_clean_cats + '/*.fits')
-    ipix_cats = glob.glob(hpx_cats_path + '/*.fits')
+    ipix_clean_cats = glob.glob(hpx_cats_clean_path + '/*.fits')[0:20]
+    ipix_cats = glob.glob(hpx_cats_clus_field + '/*.fits')[0:20]
 
     len_ipix = len(ipix_clean_cats)
 
@@ -310,6 +344,10 @@ def plot_clusters_clean(param):
         RA_orig = data[ra_str]
         DEC_orig = data[dec_str]
         GC_orig = data['GC']
+
+        half_size_plot = 0.01
+
+        st_line_arcsec = 0.01
 
         half_size_plot_dec = half_size_plot
         half_size_plot_ra = half_size_plot / np.cos(np.deg2rad(dec_cen[i]))
@@ -480,7 +518,7 @@ def general_plots(star_clusters_simulated, output_dir):
     plt.close()
 
 
-def plot_ftp(ftp_dir, nside, star_clusters_simulated, ra_max, ra_min, dec_min, dec_max, output_dir):
+def plot_ftp(param):
     """Plot footprint map to check area.
 
     Parameters
@@ -505,20 +543,22 @@ def plot_ftp(ftp_dir, nside, star_clusters_simulated, ra_max, ra_min, dec_min, d
 
     cmap = plt.cm.inferno_r
 
-    fits_files = glob.glob(ftp_dir + '/*.*')
+    globals().update(param)
+
+    fits_files = glob.glob(ftp_path + '/*.*')
     
     pix_ftp = [int(i.split('/')[-1][:-5]) for i in fits_files]
 
     ra_pix_ftp, dec_pix_ftp = hp.pix2ang(
-        nside, pix_ftp, nest=True, lonlat=True)
-    map_ftp = np.zeros(hp.nside2npix(nside))
+        nside_ftp, pix_ftp, nest=True, lonlat=True)
+    map_ftp = np.zeros(hp.nside2npix(nside_ftp))
     map_ftp[pix_ftp] = 1
 
     test = hp.cartview(
         map_ftp,
         nest=True,
-        lonra=[np.min(ra_pix_ftp), np.max(ra_pix_ftp)],
-        latra=[np.min(dec_pix_ftp), np.max(dec_pix_ftp)],
+        lonra=[ra_min, ra_max],
+        latra=[dec_min, dec_max],
         hold=True,
         cbar=False,
         title="",
@@ -545,7 +585,7 @@ def plot_ftp(ftp_dir, nside, star_clusters_simulated, ra_max, ra_min, dec_min, d
     axs.set_title("2D Histogram of stars of stars on Footprint Map")
     axs.grid()
     plt.legend(loc=1)
-    # plt.savefig(output_dir + '/ftp.png')
+    #  plt.savefig(output_dir + '/ftp.png')
     plt.show()
     # plt.close()
 

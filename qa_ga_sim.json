@@ -1,5 +1,6 @@
 {
     "pars_simulations_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/ga_sim.json",
     "table_star_clusters_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/star_clusters_simulated.dat",
-    "export_file": "/home/adriano.pieres/public_html/gawa_processes/00047/simulations/index.html"
+    "export_file": "/home/adriano.pieres/public_html/gawa_processes/00047/simulations/index.html",
+    "plot_individual": False
 }

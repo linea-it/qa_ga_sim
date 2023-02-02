@@ -46,7 +46,7 @@ def plot_stellar_dens(param):
     for ii, jj in enumerate(GC):
         mapp[ipix[ii]] = GC_dens[ii]
     
-    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens[GC_dens != 0.]), max=np.max(GC_dens))
+    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens), max=np.max(GC_dens))
     plt.show()
 
     '''
@@ -325,16 +325,24 @@ def plot_clusters_clean(param):
  
     globals().update(param)
 
-    ipix_clean_cats = glob.glob(hpx_cats_clean_path + '/*.fits')[0:20]
-    ipix_cats = glob.glob(hpx_cats_clus_field + '/*.fits')[0:20]
+    ra_cen, dec_cen, r_exp, ell, pa, dist = np.loadtxt(star_clusters_simulated, usecols=(9, 10, 11, 12, 13, 15), unpack=True)
+
+    hlr_deg = np.rad2deg(np.arctan(1.7 * r_exp / dist))
+
+    ipix = np.loadtxt(star_clusters_simulated, usecols=(0), dtype=int, unpack=True)
+    
+    ipix_clean_cats = [hpx_cats_clean_path + '/' + str(i) + '.fits' for i in ipix[0:20]]
+    ipix_cats = [hpx_cats_clus_field + '/' + str(i) + '.fits' for i in ipix[0:20]]
 
     len_ipix = len(ipix_clean_cats)
 
-    ipix = [int((i.split('/')[-1]).split('.')[0]) for i in ipix_cats]
+    # ipix = [int((i.split('/')[-1]).split('.')[0]) for i in ipix_cats]
 
     ra_cen, dec_cen = hp.pix2ang(nside_ini, ipix, nest=True, lonlat=True)
 
     tot_clus = len(ipix)
+
+    sample_line = [1/3600., 5/3600., 10/3600., 20/3600., 30/3600., 40/3600., 1/60., 2/60., 3/60., 5/60., 10/60., 20/60., 30/60.]
     '''
     tot_clus = 0
     for i in range(len_ipix):
@@ -356,9 +364,19 @@ def plot_clusters_clean(param):
         DEC_orig = data[dec_str]
         GC_orig = data['GC']
 
-        half_size_plot = 0.01
+        half_size_plot = 2 * hlr_deg[i]
 
-        st_line_arcsec = 0.01
+        st_line_arcsec = min(sample_line, key=lambda x:abs(x - hlr_deg[i]))
+
+        t = np.linspace(0, 2*np.pi, 100)
+        a = hlr_deg[i]
+        b = a * (1. - ell[i])
+        ell_deg = np.array([a*np.cos(t) , b*np.sin(t)])
+        r_rot = np.array([[np.cos(np.deg2rad(pa[i])) , -np.sin(np.deg2rad(pa[i]))], [np.sin(np.deg2rad(pa[i])) , np.cos(np.deg2rad(pa[i]))]])
+        ell_rot_deg = np.zeros((2, ell_deg.shape[1]))
+
+        for ii in range(ell_deg.shape[1]):
+            ell_rot_deg[:,ii] = np.dot(r_rot, ell_deg[:,ii])
 
         half_size_plot_dec = half_size_plot
         half_size_plot_ra = half_size_plot / np.cos(np.deg2rad(dec_cen[i]))
@@ -391,6 +409,15 @@ def plot_clusters_clean(param):
                 ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
             ax[col].set_xlabel('RA (deg)')
             ax[col].set_ylabel('DEC (deg)')
+            ax[col].plot(ra_cen[i]+ell_rot_deg[1,:] / np.cos(np.deg2rad(dec_cen[i])), dec_cen[i]+ell_rot_deg[0,:], ls='--', color='darkorange', label='half-light radius')
+            if int(60*st_line_arcsec) <= 1.:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcsec'.format(int(3600*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+            else:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcmin'.format(int(60*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+
+            ax[col].plot([ra_cen[i] - half_size_plot_ra + st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), ra_cen[i] - half_size_plot_ra + 2. * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i])))], [dec_cen[i] - 0.9 * half_size_plot_dec, dec_cen[i] - 0.9 * half_size_plot_dec], color='k', lw=1, zorder=2)
+
+            ax[col].legend(loc=3)
 
             col = 1
             ax[col].scatter(RA[GC == 0], DEC[GC == 0], edgecolor='b',
@@ -404,15 +431,15 @@ def plot_clusters_clean(param):
             ax[col].set_title('Ipix {:d} after filter'.format(
                 ipix[i]), y=0.9, pad=8, backgroundcolor='w')  # {x=ra_cen[i], y=dec_cen[i], pad=8)
             ax[col].legend(loc=3)
-            ax[col].scatter(
-                ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
-            ax[col].text(
-                ra_cen[i] - half_size_plot_ra + 2. * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))*3600), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcsec'.format(int(st_line_arcsec)), fontsize=8.)
+            ax[col].scatter(ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
             ax[col].set_xlabel('RA (deg)')
-            ax[col].plot(
-                [ra_cen[i] - half_size_plot_ra + st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))*3600),
-                 ra_cen[i] - half_size_plot_ra + 2. * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))*3600)],
-                [dec_cen[i] - 0.9 * half_size_plot_dec, dec_cen[i] - 0.9 * half_size_plot_dec], color='k', lw=1)
+            ax[col].plot(ra_cen[i]+ell_rot_deg[1,:] / np.cos(np.deg2rad(dec_cen[i])), dec_cen[i]+ell_rot_deg[0,:], ls='--', color='darkorange', label='half-light radius')
+            if int(60*st_line_arcsec) <= 1.:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcsec'.format(int(3600*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+            else:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcmin'.format(int(60*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+            ax[col].plot([ra_cen[i] - half_size_plot_ra + st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), ra_cen[i] - half_size_plot_ra + 2. * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i])))], [dec_cen[i] - 0.9 * half_size_plot_dec, dec_cen[i] - 0.9 * half_size_plot_dec], color='k', lw=1, zorder=2)
+            ax[col].legend(loc=3)
 
             col = 2
             ax[col].set_xlabel('RA (deg)')
@@ -434,9 +461,14 @@ def plot_clusters_clean(param):
             ax[col].set_title('Ipix='+str(ipix[i]), y=0.9,
                               pad=8, backgroundcolor='w')
             ax[col].legend(loc=3)
-            ax[col].scatter(
-                ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
-
+            ax[col].scatter(ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
+            ax[col].plot(ra_cen[i]+ell_rot_deg[1,:] / np.cos(np.deg2rad(dec_cen[i])), dec_cen[i]+ell_rot_deg[0,:], ls='--', color='darkorange', label='half-light radius')
+            if int(60*st_line_arcsec) <= 1.:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcsec'.format(int(3600*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+            else:
+                ax[col].text(ra_cen[i] - half_size_plot_ra + 1.5 * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), dec_cen[i] - 0.96 * half_size_plot_dec, '{:d} arcmin'.format(int(60*st_line_arcsec)), fontsize=8., backgroundcolor='w', zorder=1, ha='center')
+            ax[col].plot([ra_cen[i] - half_size_plot_ra + st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i]))), ra_cen[i] - half_size_plot_ra + 2. * st_line_arcsec / (np.cos(np.deg2rad(dec_cen[i])))], [dec_cen[i] - 0.9 * half_size_plot_dec, dec_cen[i] - 0.9 * half_size_plot_dec], color='k', lw=1, zorder=2)
+            ax[col].legend(loc=3)
             plt.subplots_adjust(wspace=0, hspace=0)
             # plt.savefig('{}/{}clusters_with_and_without_crowded_stars.png'.format(output_dir, ipix[i]))
             plt.show()
@@ -730,7 +762,7 @@ def plot_ftp(param):
     # plt.close()
 
 
-def plots_ang_size(param):
+def plots_ang_size(param, FeH_iso):
     """" Makes a series of plots showing the distribution of simulated clusters (along real
     objects) in terms of distances, angular sizes, absolute magnitudes, etc.
 
@@ -759,7 +791,7 @@ def plots_ang_size(param):
     cmap.set_under("dimgray")
     cmap.set_bad("black")
 
-    globals().update(param, FeH_iso)
+    globals().update(param)
 
     hp_sample_un, NSTARS, MAG_ABS_V, NSTARS_CLEAN, MAG_ABS_V_CLEAN, r_exp, mass, dist = np.loadtxt(
         star_clusters_simulated, usecols=(0, 1, 2, 4, 5, 11, 14, 15), unpack=True
@@ -985,22 +1017,20 @@ def plot_err(hpx_cats_clean, sample):
         mag_g_with_err.extend(mag_g_with_err_)
         magerr_g.extend(magerr_g_)
 
-    plt.scatter(mag_g_with_err[GC == 0],
-                magerr_g[GC == 0], label="Field stars", c="k")
-    plt.scatter(
-        mag_g_with_err[GC == 1],
-        magerr_g[GC == 1],
-        label="Simulated stars",
-        c="r",
-        zorder=10,
-    )
-    plt.yscale("log")
+    mag_field_stars = [jj for ii, jj in enumerate(mag_g_with_err) if not GC[ii]]
+    magerr_field_stars = [jj for ii, jj in enumerate(magerr_g) if not GC[ii]]
+    mag_clus_stars = [jj for ii, jj in enumerate(mag_g_with_err) if GC[ii]]
+    magerr_clus_stars = [jj for ii, jj in enumerate(magerr_g) if GC[ii]]
+
+    plt.scatter(mag_field_stars, magerr_field_stars, label="Field stars", c="k")
+    plt.scatter(mag_clus_stars, magerr_clus_stars, label="Simulated stars", c="r")
+    # plt.yscale("log")
     plt.xlabel("mag_g_with_err")
     plt.ylabel("magerr_g")
-    plt.legend()
+    plt.ylim(0.00, 0.5)
 
     # In case the plot should be saved:
     # filepath = Path(output_plots, "simulated_stars_err.png")
     # plt.savefig(filepath)
-    # plt.show()
-    # plt.close()
+    plt.legend()
+    plt.show()

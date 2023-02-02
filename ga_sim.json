@@ -42,7 +42,7 @@
     "hpx_cats_filt_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/hpx_cats_filt",
     "hpx_cats_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/hpx_cats",
     "hpx_cats_clus_field": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/hpx_cats_clus_field",
-    "hpx_cats_clean_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/results/hpx_cats_clean",
+    "hpx_cats_clean_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/hpx_cats_clean",
     "star_clusters_simulated": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/star_clusters_simulated.dat",
     "output_plots": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/simulations/plots",
     "results_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/simulations",

@@ -40,13 +40,13 @@ def plot_stellar_dens(param):
         GCs = data['GC']
         GC.append(len(GCs[GCs == 0]))
     
-    GC_dens = np.divide(GC, hp.nside2pixarea(nside_ini, degrees=True))
+    GC_dens = np.divide(GC, 3600.*hp.nside2pixarea(nside_ini, degrees=True))
     mapp = np.zeros(hp.nside2npix(nside_ini))
     
     for ii, jj in enumerate(GC):
         mapp[ipix[ii]] = GC_dens[ii]
     
-    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq deg)', nest=True, flip='astro', min=np.min(GC_dens), max=np.max(GC_dens))
+    hp.mollview(mapp, unit='', title='Stellar density of MW stars (stars per sq arcmin)', nest=True, flip='astro', min=np.min(GC_dens), max=np.max(GC_dens))
     plt.show()
 
     '''
@@ -78,7 +78,7 @@ def plot_stellar_dens(param):
     axs.set_ylabel("DEC (deg)")
     axs.set_title("2D Hist of density of MW stars")
     axs.grid()
-    plt.colorbar(cbar,fraction=0.046, pad=0.04, label='density of stars per square degree')
+    plt.colorbar(cbar,fraction=0.046, pad=0.04, label='density of stars per square arcmin')
     #  plt.savefig(output_dir + '/ftp.png')
     plt.show()
 
@@ -491,9 +491,9 @@ def general_plots(star_clusters_simulated, output_dir):
 
     name_DG, ra_DG, dec_DG, dist_kpc_DG, Mv_DG, rhl_pc_DG, FeH_DG, name_GC, R_MW_GC, FeH_GC, mM_GC, Mv_GC, rhl_pc_GC, dist_kpc_GC, rhl_arcmin_GC = read_real_cat()
 
-    MAG_ABS_V, MAG_ABS_V_CLEAN, R_EXP, MASS = np.loadtxt(
+    N, MAG_ABS_V, N_f, MAG_ABS_V_CLEAN, R_EXP, MASS = np.loadtxt(
         star_clusters_simulated,
-        usecols=(2, 5, 11, 14),
+        usecols=(1, 2, 4, 5, 11, 14),
         unpack=True,
     )
     f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
@@ -545,7 +545,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
-
+    ax2.set_title('Real Globular Clusters(GCs) and Dwarf Galaxies (DG)')
     # ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
     # ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
     # for i, j in enumerate(MASS):
@@ -556,6 +556,13 @@ def general_plots(star_clusters_simulated, output_dir):
     ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax3.legend(loc=3)
+    # plt.savefig(output_dir + '/hist_MV.png')
+    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
+    ax4.set_xlim([0.4, 4000])
+    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.scatter(rhl_pc, N, label='Sim')
+    ax4.legend(loc=3)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
@@ -609,6 +616,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
+    ax2.set_title('Simulated Clusters before filter by crowding')
 
     ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
     # ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
@@ -621,6 +629,12 @@ def general_plots(star_clusters_simulated, output_dir):
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax3.legend(loc=3)
     # plt.savefig(output_dir + '/hist_MV.png')
+    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
+    ax4.set_xlim([0.4, 4000])
+    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.scatter(rhl_pc, N, label='Sim', color='r')
+    ax4.legend(loc=3)
     plt.show()
     plt.close()
     #####################################################
@@ -673,6 +687,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
+    ax2.set_title('Simulated Clusters after filter by crowding')
 
     # ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
     ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
@@ -684,14 +699,95 @@ def general_plots(star_clusters_simulated, output_dir):
     ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax3.legend(loc=3)
+    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
+    ax4.set_xlim([0.4, 4000])
+    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
+    ax4.legend(loc=3)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
 
-
+    # Before and after filtering stars
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
+    ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
+                MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
+    ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+    # ax1.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
+    # ax1.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
+    # for i, j in enumerate(R_EXP):
+    #     if MAG_ABS_V[i] < 0.0:
+    #         ax1.plot([1.7 * R_EXP[i], 1.7 * R_EXP[i]],
+    #                  [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.1)
+    # for i, j in enumerate(rhl_pc_DG):
+    #     ax1.annotate(name_DG[i], (rhl_pc_DG[i], Mv_DG[i]))
+    # for i, j in enumerate(rhl_pc_GC):
+    #     ax1.annotate(name_GC[i], (rhl_pc_GC[i], Mv_GC[i]))
+    ax1.set_ylabel("M(V)")
+    ax1.set_xlabel(r"$r_{1/2}$ (pc))")
+    # ax1.set_xlim([np.min(1.7 * R_EXP[MAG_ABS_V < 0.0]) - 0.1,
+    #              np.max(1.7 * R_EXP[MAG_ABS_V < 0.0]) + 0.1])
+    ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax1.set_xscale("log")
+    ax1.legend()
+    
+    ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
+                MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
+    ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+    # ax2.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
+    # ax2.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
+    # for i, j in enumerate(rhl_pc_DG):
+    #    ax2.annotate(name_DG[i], (np.log10(rhl_pc_DG[i]), Mv_DG[i]))
+    # for i, j in enumerate(rhl_pc_GC):
+    #    ax2.annotate(name_GC[i], (np.log10(rhl_pc_GC[i]), Mv_GC[i]))
+    ax2.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax2.legend()
+    ax2.plot(np.logspace(np.log10(1.8), np.log10(1800), 10, endpoint=True),
+             np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
+    ax2.plot(np.logspace(np.log10(4.2), np.log10(4200), 10, endpoint=True),
+             np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
+    ax2.plot(np.logspace(np.log10(11), np.log10(11000), 10, endpoint=True),
+             np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
+    ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
+             np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
+    ax2.set_xscale("log")
+    ax2.set_xlim([0.4, 4000])
+    ax2.set_ylim([1, -14])
+    ax2.set_title('Simulated Clusters after filter by crowding')
+    
+    ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
+    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
+    for i, j in enumerate(MASS):
+        if MAG_ABS_V[i] < 0.0:
+            ax3.plot([MASS[i], MASS[i]],
+                     [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.2)
+    ax3.set_xlabel("mass(Msun)")
+    ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax3.legend(loc=3)
+    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
+    ax4.set_xlim([0.4, 4000])
+    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.scatter(rhl_pc, N, label='Sim', color='red')
+    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
+    ax4.legend(loc=3)
+    # plt.savefig(output_dir + '/hist_MV.png')
+    plt.show()
+    plt.close()
+    
+    
+    
+    
 def plot_ftp(param):
     """Plot footprint map to check area.
-
+    
     Parameters
     ----------
     ftp_dir : str

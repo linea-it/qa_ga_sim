@@ -30,7 +30,7 @@
     "border_extract": 1,
     "Ag_AV": 1.17450,
     "Ar_AV": 0.86666,
-    "ftp_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00047/simulations/ftp",
+    "ftp_path": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00050/simulations/ftp",
     "file_iso": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/ga_sim/isochrone/iso_input_down.dat",
     "red_maps_path": "/home/adriano.pieres/ga_sim/reddening_maps",
     "survey": "lsst",

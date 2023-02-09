@@ -327,6 +327,7 @@ def plot_clusters_clean(param):
 
     ra_cen, dec_cen, r_exp, ell, pa, dist = np.loadtxt(star_clusters_simulated, usecols=(9, 10, 11, 12, 13, 15), unpack=True)
 
+    hlr_pc = 1.7 * r_exp
     hlr_deg = np.rad2deg(np.arctan(1.7 * r_exp / dist))
 
     ipix = np.loadtxt(star_clusters_simulated, usecols=(0), dtype=int, unpack=True)
@@ -402,8 +403,7 @@ def plot_clusters_clean(param):
                 [ra_cen[i] + half_size_plot_ra, ra_cen[i] - half_size_plot_ra])
             ax[col].set_ylim(
                 [dec_cen[i] - half_size_plot_dec, dec_cen[i] + half_size_plot_dec])
-            ax[col].set_title('Ipix {:d} before filter'.format(
-                ipix[i]), y=0.9, pad=8, backgroundcolor='w')  # {x=ra_cen[i], y=dec_cen[i], pad=8)
+            ax[col].set_title('Ipix {:d} before filter'.format(ipix[i]), y=0.9, pad=8, backgroundcolor='w')  # {x=ra_cen[i], y=dec_cen[i], pad=8)
             ax[col].legend(loc=3)
             ax[col].scatter(
                 ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
@@ -458,8 +458,7 @@ def plot_clusters_clean(param):
             ax[col].set_ylim(
                 [dec_cen[i] - half_size_plot, dec_cen[i] + half_size_plot])
             # {x=ra_cen[i], y=dec_cen[i], pad=8)
-            ax[col].set_title('Ipix='+str(ipix[i]), y=0.9,
-                              pad=8, backgroundcolor='w')
+            ax[col].set_title('Ipix {:d} \n half-light radius: {:.2f} pc, distance: {:.1f} kpc'.format(ipix[i], hlr_pc[i], dist[i]/1000), y=0.89, pad=8, backgroundcolor='w')  # {x=ra_cen[i], y=dec_cen[i], pad=8)
             ax[col].legend(loc=3)
             ax[col].scatter(ra_cen[i], dec_cen[i], color='k', s=100, marker='+', label='Cluster center')
             ax[col].plot(ra_cen[i]+ell_rot_deg[1,:] / np.cos(np.deg2rad(dec_cen[i])), dec_cen[i]+ell_rot_deg[0,:], ls='--', color='darkorange', label='half-light radius')
@@ -496,7 +495,8 @@ def general_plots(star_clusters_simulated, output_dir):
         usecols=(1, 2, 4, 5, 11, 14),
         unpack=True,
     )
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
+    rhl_pc = 1.7 * R_EXP
+    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -540,8 +540,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -559,15 +559,15 @@ def general_plots(star_clusters_simulated, output_dir):
     # plt.savefig(output_dir + '/hist_MV.png')
     ax4.set_xlabel(r"$r_{1/2}$ (pc))")
     ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax4.set_xlim([0.4, 4000])
-    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.set_xlim([0, 2500])
+    ax4.set_ylim([np.min(N), np.max(N)])
     ax4.scatter(rhl_pc, N, label='Sim')
-    ax4.legend(loc=3)
+    ax4.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
     #################################################
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
+    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -611,8 +611,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -631,14 +631,14 @@ def general_plots(star_clusters_simulated, output_dir):
     # plt.savefig(output_dir + '/hist_MV.png')
     ax4.set_xlabel(r"$r_{1/2}$ (pc))")
     ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax4.set_xlim([0.4, 4000])
-    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.set_xlim([0, 2500])
+    ax4.set_ylim([np.min(N), np.max(N)])
     ax4.scatter(rhl_pc, N, label='Sim', color='r')
-    ax4.legend(loc=3)
+    ax4.legend(loc=1)
     plt.show()
     plt.close()
     #####################################################
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
+    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -682,8 +682,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -701,16 +701,16 @@ def general_plots(star_clusters_simulated, output_dir):
     ax3.legend(loc=3)
     ax4.set_xlabel(r"$r_{1/2}$ (pc))")
     ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
-    ax4.set_xlim([0.4, 4000])
-    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.set_xlim([0, 2500])
+    ax4.set_ylim([np.min(N), np.max(N)])
     ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
-    ax4.legend(loc=3)
+    ax4.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
 
     # Before and after filtering stars
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
+    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -754,8 +754,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -772,12 +772,15 @@ def general_plots(star_clusters_simulated, output_dir):
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax3.legend(loc=3)
     ax4.set_xlabel(r"$r_{1/2}$ (pc))")
-    ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
-    ax4.set_xlim([0.4, 4000])
-    ax4.set_ylim([np.min(N), np.min(N)])
+    ax4.set_ylabel(r"$N_{stars}\ before/after\ filtering$")
+    ax4.set_xlim([0, 2500])
+    ax4.set_ylim([np.min(N), np.max(N)])
+    for i, j in enumerate(rhl_pc):
+        ax4.plot([rhl_pc[i], rhl_pc[i]],
+                     [N[i], N_f[i]], color='darkred', lw=0.2)
     ax4.scatter(rhl_pc, N, label='Sim', color='red')
     ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
-    ax4.legend(loc=3)
+    ax4.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
@@ -1084,7 +1087,7 @@ def plots_ang_size(param, FeH_iso):
     plt.show()
 
 
-def plot_err(hpx_cats_clean, sample):
+def plot_err(param, sample):
     """Plot the magnitude and error of the simulated clusters compared to the
     real stars, in log scale.
 
@@ -1095,38 +1098,155 @@ def plot_err(hpx_cats_clean, sample):
     output_plots : _type_, optional
         _description_, by default Path("results")
     """
-    cats = glob.glob(hpx_cats_clean + '/*.*')
+
+    globals().update(param)
+    
+    cmap = mpl.cm.get_cmap("Blues")
+    cmap.set_under("lightgray")
+    cmap.set_bad("lightgray")
+
+
+    cats = glob.glob(hpx_cats_clean_path + '/*.*')
 
     cats_sampled  = cats[0:sample-1]
 
     GC = []
     mag_g_with_err = []
     magerr_g = []
+    mag_r_with_err = []
+    magerr_r = []
 
     for i in cats_sampled:
         hdu = fits.open(i, memmap=True)
         GC_ = hdu[1].data.field("GC")
         mag_g_with_err_ = hdu[1].data.field("mag_g_with_err")
         magerr_g_ = hdu[1].data.field("magerr_g")
+        mag_r_with_err_ = hdu[1].data.field("mag_r_with_err")
+        magerr_r_ = hdu[1].data.field("magerr_r")
         hdu.close()
         GC.extend(GC_)
         mag_g_with_err.extend(mag_g_with_err_)
         magerr_g.extend(magerr_g_)
+        mag_r_with_err.extend(mag_r_with_err_)
+        magerr_r.extend(magerr_r_)
 
-    mag_field_stars = [jj for ii, jj in enumerate(mag_g_with_err) if not GC[ii]]
-    magerr_field_stars = [jj for ii, jj in enumerate(magerr_g) if not GC[ii]]
-    mag_clus_stars = [jj for ii, jj in enumerate(mag_g_with_err) if GC[ii]]
-    magerr_clus_stars = [jj for ii, jj in enumerate(magerr_g) if GC[ii]]
+    magg_field_stars = [jj for ii, jj in enumerate(mag_g_with_err) if not GC[ii]]
+    maggerr_field_stars = [jj for ii, jj in enumerate(magerr_g) if not GC[ii]]
+    magg_clus_stars = [jj for ii, jj in enumerate(mag_g_with_err) if GC[ii]]
+    maggerr_clus_stars = [jj for ii, jj in enumerate(magerr_g) if GC[ii]]
+    magr_field_stars = [jj for ii, jj in enumerate(mag_r_with_err) if not GC[ii]]
+    magrerr_field_stars = [jj for ii, jj in enumerate(magerr_r) if not GC[ii]]
+    magr_clus_stars = [jj for ii, jj in enumerate(mag_r_with_err) if GC[ii]]
+    magrerr_clus_stars = [jj for ii, jj in enumerate(magerr_r) if GC[ii]]
 
-    plt.scatter(mag_field_stars, magerr_field_stars, label="Field stars", c="k")
-    plt.scatter(mag_clus_stars, magerr_clus_stars, label="Simulated stars", c="r")
-    # plt.yscale("log")
-    plt.xlabel("mag_g_with_err")
-    plt.ylabel("magerr_g")
-    plt.ylim(0.00, 0.5)
+    f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(20, 20))
 
-    # In case the plot should be saved:
-    # filepath = Path(output_plots, "simulated_stars_err.png")
-    # plt.savefig(filepath)
-    plt.legend()
+    ax1.set_title("Photometric errors of field stars in g band")
+    ax2.set_title("Photometric errors of clus stars in g band")
+    ax3.set_title("Photometric errors of field stars in r band")
+    ax4.set_title("Photometric errors of clus stars in r band")
+
+    h1, xedges, yedges, im1 = plt.hist2d(
+        magg_field_stars,
+        maggerr_field_stars,
+        bins=50,
+        range=[[mmin, mmax], [0.00, 0.5]],
+        # norm=mpl.colors.LogNorm(),
+        cmap=cmap,
+    )
+    h2, xedges, yedges, im1 = plt.hist2d(
+        magg_clus_stars,
+        maggerr_clus_stars,
+        bins=50,
+        range=[[mmin, mmax], [0.00, 0.5]],
+        # norm=mpl.colors.LogNorm(),
+        cmap=cmap,
+    )
+    h3, xedges, yedges, im1 = plt.hist2d(
+        magr_field_stars,
+        magrerr_field_stars,
+        bins=50,
+        range=[[mmin, mmax], [0.00, 0.5]],
+        # norm=mpl.colors.LogNorm(),
+        cmap=cmap,
+    )
+    h4, xedges, yedges, im1 = plt.hist2d(
+        magr_clus_stars,
+        magrerr_clus_stars,
+        bins=50,
+        range=[[mmin, mmax], [0.00, 0.5]],
+        # norm=mpl.colors.LogNorm(),
+        cmap=cmap,
+    )
+    im1 = ax1.imshow(
+        h1.T,
+        interpolation="None",
+        origin="lower",
+        vmin=0.1,
+        vmax=np.max(h1),
+        extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
+        aspect="auto",
+        cmap=cmap,
+    )
+
+    im2 = ax2.imshow(
+        h2.T,
+        interpolation="None",
+        origin="lower",
+        vmin=0.1,
+        vmax=np.max(h2),
+        extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
+        aspect="auto",
+        cmap=cmap,
+    )
+
+    im3 = ax3.imshow(
+        h3.T,
+        interpolation="None",
+        origin="lower",
+        vmin=0.1,
+        vmax=np.max(h3),
+        extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
+        aspect="auto",
+        cmap=cmap,
+    )
+
+    im4 = ax4.imshow(
+        h4.T,
+        interpolation="None",
+        origin="lower",
+        vmin=0.1,
+        vmax=np.max(h4),
+        extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
+        aspect="auto",
+        cmap=cmap,
+    )
+
+    ax1.set_xlim([mmin, mmax])
+    ax1.set_ylim([0., 0.5])
+    ax2.set_xlim([mmin, mmax])
+    ax2.set_ylim([0., 0.5])
+    ax3.set_xlim([mmin, mmax])
+    ax3.set_ylim([0., 0.5])
+    ax4.set_xlim([mmin, mmax])
+    ax4.set_ylim([0., 0.5])
+    ax1.set_xlabel("g magnitude")
+    ax1.set_ylabel("g magnitude error")
+    ax2.set_xlabel("g magnitude")
+    ax2.set_ylabel("g magnitude error")
+    ax3.set_xlabel("r magnitude")
+    ax3.set_ylabel("r magnitude error")
+    ax4.set_xlabel("r magnitude")
+    ax4.set_ylabel("r magnitude error")
+    f.subplots_adjust(right=0.88)
+    cbaxes = f.add_axes([0.92, 0.12, 0.015, 0.76])
+    cbar = f.colorbar(im4, cax=cbaxes, cmap=cmap, orientation='vertical', label=r'$\mathrm{stars\ bin^{-1}}$')
     plt.show()
+
+    bins = np.arange(mmin, mmax, 1.)
+    for j, (mag_min, mag_max) in enumerate(zip(bins[0:-1], bins[1:])):
+        plt.hist(np.array(maggerr_field_stars)[(magg_field_stars >= mag_min)&(magg_field_stars <= mag_max)], bins=50, range=(0., 0.2), label='Field stars', color='k')
+        plt.hist(np.array(maggerr_clus_stars)[(magg_clus_stars >= mag_min)&(magg_clus_stars <= mag_max)], bins=50, range=(0., 0.2), label='Cluster stars', color='red')
+        plt.title('Stars between magnitude {:.2f} and {:.2f}'.format(mag_min, mag_max))
+        plt.yscale('log')
+        plt.show()

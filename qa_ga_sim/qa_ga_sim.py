@@ -540,8 +540,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -611,8 +611,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -682,8 +682,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=65)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=65)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -1249,4 +1249,5 @@ def plot_err(param, sample):
         plt.hist(np.array(maggerr_clus_stars)[(magg_clus_stars >= mag_min)&(magg_clus_stars <= mag_max)], bins=50, range=(0., 0.2), label='Cluster stars', color='red')
         plt.title('Stars between magnitude {:.2f} and {:.2f}'.format(mag_min, mag_max))
         plt.yscale('log')
+        plt.legend()
         plt.show()

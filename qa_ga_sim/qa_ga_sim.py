@@ -642,7 +642,7 @@ def general_plots(star_clusters_simulated, output_dir):
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
-                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='k', label='Sim filt')
     # ax1.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
     # ax1.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
     # for i, j in enumerate(R_EXP):
@@ -665,7 +665,7 @@ def general_plots(star_clusters_simulated, output_dir):
     # ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
-                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='k', label='Sim filt')
     # ax2.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
     # ax2.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
     # for i, j in enumerate(rhl_pc_DG):
@@ -690,7 +690,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.set_title('Simulated Clusters after filter by crowding')
 
     # ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
-    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
+    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
     # for i, j in enumerate(MASS):
     #     if MAG_ABS_V[i] < 0.0:
     #         ax3.plot([MASS[i], MASS[i]],
@@ -703,7 +703,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
     ax4.set_xlim([0, 2500])
     ax4.set_ylim([np.min(N), np.max(N)])
-    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
+    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
     ax4.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
@@ -714,7 +714,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
-                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='k', label='Sim filt')
     # ax1.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
     # ax1.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
     # for i, j in enumerate(R_EXP):
@@ -737,7 +737,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax2.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
-                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='darkred', label='Sim filt')
+                MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0], color='k', label='Sim filt')
     # ax2.scatter(rhl_pc_DG, Mv_DG, color='b', marker='x', label='DG')
     # ax2.scatter(rhl_pc_GC, Mv_GC, color='k', marker='x', label='GC')
     # for i, j in enumerate(rhl_pc_DG):
@@ -762,11 +762,11 @@ def general_plots(star_clusters_simulated, output_dir):
     ax2.set_title('Simulated Clusters after filter by crowding')
     
     ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
-    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
+    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
     for i, j in enumerate(MASS):
         if MAG_ABS_V[i] < 0.0:
             ax3.plot([MASS[i], MASS[i]],
-                     [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.2)
+                     [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='k', lw=0.2)
     ax3.set_xlabel("mass(Msun)")
     ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
                  0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
@@ -779,7 +779,7 @@ def general_plots(star_clusters_simulated, output_dir):
         ax4.plot([rhl_pc[i], rhl_pc[i]],
                      [N[i], N_f[i]], color='darkred', lw=0.2)
     ax4.scatter(rhl_pc, N, label='Sim', color='red')
-    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='darkred')
+    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
     ax4.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
@@ -963,53 +963,65 @@ def plots_ang_size(param, FeH_iso):
         (ax9, ax10)) = plt.subplots(5, 2, figsize=(15, 23))
 
     ax1.hist(dist_kpc_DG, bins=np.linspace(0, 2. * np.max(dist) / 1000,
-             20), label='DG', color='b', alpha=0.5, histtype='stepfilled')
+             20), label='DG', color='b', alpha=0.5, histtype='stepfilled',
+             density=True)
     ax1.hist(dist_kpc_GC, bins=np.linspace(0, 2. * np.max(dist) / 1000,
-             20), label='GC', color='k', alpha=0.5, lw=2, histtype='step')
+             20), label='GC', color='k', alpha=0.5, lw=2, histtype='step',
+             density=True)
     ax1.hist(dist / 1000, bins=np.linspace(0, 2. * np.max(dist) /
-             1000, 20), label='Sim', color='r', alpha=0.5)
+             1000, 20), label='Sim', color='r', alpha=0.5,
+             density=True)
     ax1.legend()
     ax1.set_xlabel("Distance (kpc)")
-    ax1.set_ylabel("N objects")
+    ax1.set_ylabel("Likelihood")
     ax1.set_title('Histogram of distances (linear scale)')
     ax1.set_xlim([0, 2. * np.max(dist) / 1000])
 
     ax2.hist(dist_kpc_DG, bins=np.linspace(0, 2. * np.max(dist) / 1000,
-             20), label='DG', color='b', alpha=0.5, histtype='stepfilled')
+             20), label='DG', color='b', alpha=0.5, histtype='stepfilled',
+             density=True)
     ax2.hist(dist_kpc_GC, bins=np.linspace(0, 2. * np.max(dist) / 1000,
-             20), label='GC', color='k', alpha=0.5, lw=2, histtype='step')
+             20), label='GC', color='k', alpha=0.5, lw=2, histtype='step',
+             density=True)
     ax2.hist(dist / 1000, bins=np.linspace(0, 2. * np.max(dist) /
-             1000, 20), label='Sim', color='r', alpha=0.5)
+             1000, 20), label='Sim', color='r', alpha=0.5,
+             density=True)
     ax2.legend()
     ax2.set_title('Histogram of distances (log scale)')
     ax2.set_xlabel("Distance (kpc)")
-    ax2.set_ylabel("N objects")
+    ax2.set_ylabel("Likelihood")
     ax2.set_yscale('log')
     ax2.set_xlim([0, 2. * np.max(dist) / 1000])
 
     ax3.hist(ang_size_DG, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='DG', color='b', alpha=0.5, histtype='stepfilled')
+             np.max(ang_size), 20), label='DG', color='b', alpha=0.5, histtype='stepfilled',
+             density=True)
     ax3.hist(rhl_arcmin_GC, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='GC', color='k', alpha=0.5, lw=2, histtype='step')
+             np.max(ang_size), 20), label='GC', color='k', alpha=0.5, lw=2, histtype='step',
+             density=True)
     ax3.hist(ang_size, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='Sim', color='r', alpha=0.5)
+             np.max(ang_size), 20), label='Sim', color='r', alpha=0.5,
+             density=True)
     ax3.legend()
     ax3.set_xlim([np.min(ang_size) / 2, 2. * np.max(ang_size)])
     ax3.set_xlabel(r"$r_{1/2}$ (arcmin)")
-    ax3.set_ylabel("N objects")
+    ax3.set_ylabel("Likelihood")
     ax3.set_title('Histogram of angular sizes (linear scale)')
 
     ax4.hist(ang_size_DG, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='DG', color='b', alpha=0.5, histtype='stepfilled')
+             np.max(ang_size), 20), label='DG', color='b', alpha=0.5, histtype='stepfilled',
+             density=True)
     ax4.hist(rhl_arcmin_GC, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='GC', color='k', alpha=0.5, lw=2, histtype='step')
+             np.max(ang_size), 20), label='GC', color='k', alpha=0.5, lw=2, histtype='step',
+             density=True)
     ax4.hist(ang_size, bins=np.linspace(np.min(ang_size) / 2, 2. *
-             np.max(ang_size), 20), label='Sim', color='r', alpha=0.5)
+             np.max(ang_size), 20), label='Sim', color='r', alpha=0.5,
+             density=True)
     ax4.legend()
     ax4.set_xlim([np.min(ang_size) / 2, 2. * np.max(ang_size)])
     ax4.set_yscale('log')
     ax4.set_xlabel(r"$r_{1/2}$ (arcmin)")
-    ax4.set_ylabel("N objects")
+    ax4.set_ylabel("Likelihood")
     ax4.set_title('Histogram of angular sizes (log scale)')
 
     ax5.scatter(dist / 1000, ang_size, label='Sim', color='r')
@@ -1033,24 +1045,31 @@ def plots_ang_size(param, FeH_iso):
     ax6.set_title('Visible Mass X Star counts')
 
     ax7.hist(Mv_DG, bins=20, range=(-16, 0.0),
-             histtype="stepfilled", label="DG", color="b", alpha=0.5)
+             histtype="stepfilled", label="DG", color="b", alpha=0.5,
+             density=True)
     ax7.hist(Mv_GC, bins=20, range=(-16, 0.0),
-             histtype="step", label="GC", color="k")
+             histtype="step", label="GC", color="k",
+             density=True)
     ax7.hist(MAG_ABS_V, bins=20, range=(-16, 0.0), histtype="step",
-             label="Sim", color="r", ls="--", alpha=0.5)
+             label="Sim", color="r", ls="--", alpha=0.5,
+             density=True)
     ax7.hist(MAG_ABS_V_CLEAN, bins=20, range=(-16, 0.0), histtype="stepfilled",
-             label="Sim filt", color="darkred", ls="--", alpha=0.5)
+             label="Sim filt", color="darkred", ls="--", alpha=0.5,
+             density=True)
     ax7.set_xlabel(r"$M_V$")
-    ax7.set_ylabel("N")
+    ax7.set_ylabel("Likelihood")
     ax7.legend(loc=2)
     ax7.set_title('Histogram of Absolute Magnitude (V band)')
 
     ax8.hist(rhl_pc_DG, bins=20, histtype="stepfilled",
-             range=(10, 2400), label="DG", color="b", alpha=0.5)
+             range=(10, 2400), label="DG", color="b", alpha=0.5,
+             density=True)
     ax8.hist(rhl_pc_GC, bins=20, histtype="step",
-             range=(10, 2400), label="GC", color="k")
+             range=(10, 2400), label="GC", color="k",
+             density=True)
     ax8.hist(RHL_PC_SIM, bins=20, histtype="stepfilled", range=(
-        10, 2400), label="Sim", color="r", ls="--", alpha=0.5)
+             10, 2400), label="Sim", color="r", ls="--", alpha=0.5,
+             density=True)
     ax8.set_xlabel(r"$r_{1/2}$[pc]")
     ax8.legend(loc=1)
     # ax8.set_xscale('log')
@@ -1058,14 +1077,18 @@ def plots_ang_size(param, FeH_iso):
     ax8.set_title(r'Histogram of $r_{1/2}$ (parsecs)')
 
     ax9.hist(np.repeat(FeH_iso, len(MAG_ABS_V)), bins=20, range=(-3, 1.0),
-             histtype="stepfilled", label="Sim", color="r", ls="--", alpha=0.5)
+             histtype="stepfilled", label="Sim", color="r", ls="--", alpha=0.5,
+             density=True)
     ax9.hist(FeH_DG, bins=20, range=(-3, 1.0),
-             histtype="stepfilled", label="DG", color="b", alpha=0.5)
+             histtype="stepfilled", label="DG", color="b", alpha=0.5,
+             density=True)
     ax9.hist(FeH_GC, bins=20, range=(-3, 1.0),
-             histtype="step", label="GC", color="k")
+             histtype="step", label="GC", color="k",
+             density=True)
     ax9.set_xlabel("[Fe/H]")
     ax9.legend(loc=1)
     ax9.set_title('Absolute Magnitude (V band) X Metalicity')
+    ax9.set_ylabel("Likelihood")
 
     ax10.scatter(dist / 1000, np.repeat(FeH_iso, len(dist)),
                  label="Sim", color="r", marker="x", lw=1.0)
@@ -1104,7 +1127,6 @@ def plot_err(param, sample):
     cmap = mpl.cm.get_cmap("Blues")
     cmap.set_under("lightgray")
     cmap.set_bad("lightgray")
-
 
     cats = glob.glob(hpx_cats_clean_path + '/*.*')
 
@@ -1245,9 +1267,11 @@ def plot_err(param, sample):
 
     bins = np.arange(mmin, mmax, 1.)
     for j, (mag_min, mag_max) in enumerate(zip(bins[0:-1], bins[1:])):
-        plt.hist(np.array(maggerr_field_stars)[(magg_field_stars >= mag_min)&(magg_field_stars <= mag_max)], bins=50, range=(0., 0.2), label='Field stars', color='k')
-        plt.hist(np.array(maggerr_clus_stars)[(magg_clus_stars >= mag_min)&(magg_clus_stars <= mag_max)], bins=50, range=(0., 0.2), label='Cluster stars', color='red')
-        plt.title('Stars between magnitude {:.2f} and {:.2f}'.format(mag_min, mag_max))
+        plt.hist(np.array(maggerr_field_stars)[(magg_field_stars >= mag_min)&(magg_field_stars <= mag_max)], bins=50, range=(0., 0.2), label='Field stars', color='k', density=True, histtype='step')
+        plt.hist(np.array(maggerr_clus_stars)[(magg_clus_stars >= mag_min)&(magg_clus_stars <= mag_max)], bins=50, range=(0., 0.2), label='Cluster stars', color='red', density=True, histtype='step')
+        plt.title('Stars between g magnitude {:.2f} and {:.2f}'.format(mag_min, mag_max))
         plt.yscale('log')
         plt.legend()
+        plt.xlabel('g error')
+        plt.ylabel('Likelihood')
         plt.show()

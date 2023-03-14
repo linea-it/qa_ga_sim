@@ -15,6 +15,16 @@ from astropy.coordinates import SkyCoord
 mpl.rcParams["legend.numpoints"] = 1
 
 
+def compare_filtering(file_sim_clus):
+    N, N_f = np.loadtxt(file_sim_clus, usecols=(1,4), unpack=True)
+    perc = 100*N_f / N
+    plt.hist(perc)
+    plt.xlabel('Percentage of removed stars when filtering')
+    plt.ylabel('#Clusters')
+    plt.xlim([0,100])
+    plt.show()
+    
+
 def read_iso(file_iso):
     iso_info = np.loadtxt(file_iso, usecols=(1, 2, 3, 26), unpack=True)
     FeH_iso = iso_info[0][0]
@@ -1275,3 +1285,12 @@ def plot_err(param, sample):
         plt.xlabel('g error')
         plt.ylabel('Likelihood')
         plt.show()
+
+def compare_filtering(file_sim_clus):
+    N, N_f = np.loadtxt(file_sim_clus, usecols=(1,4), unpack=True)
+    perc = 100*N_f / N
+    plt.hist(perc)
+    plt.xlabel('Percentage of removed stars when filtering')
+    plt.ylabel('#Clusters')
+    plt.xlim([0,100])
+    plt.show()

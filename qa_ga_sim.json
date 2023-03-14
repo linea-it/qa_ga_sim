@@ -1,7 +1,7 @@
 {
     "pars_simulations_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/ga_sim.json",
-    "table_star_clusters_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00053/simulations/star_clusters_simulated.dat",
-    "export_file": "/home/adriano.pieres/public_html/gawa_processes/00053/simulations/index.html",
-    "cprofile_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00053/simulations/cProfile_data.txt",
-    "plot_individual": 1
+    "table_star_clusters_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00056/simulations/star_clusters_simulated.dat",
+    "export_file": "/home/adriano.pieres/public_html/gawa_processes/00056/simulations/index.html",
+    "cprofile_file": "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/gawa_processes/00056/simulations/cProfile_data.txt",
+    "plot_individual": 0
 }

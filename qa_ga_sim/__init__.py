@@ -7,5 +7,6 @@ from qa_ga_sim.qa_ga_sim import (
     plot_cmd_clean,
     plot_stellar_dens,
     export_results,
-    read_iso
+    read_iso,
+    compare_filtering
 )

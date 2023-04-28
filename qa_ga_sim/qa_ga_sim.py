@@ -41,6 +41,8 @@ def plot_stellar_dens(param):
     globals().update(param)
     
     files = glob.glob(hpx_cats_clean_path + '/*.fits')
+
+    cmap = plt.cm.inferno
     
     GC = []
     ipix = [int(i.split('/')[-1][:-5]) for i in files]
@@ -75,7 +77,7 @@ def plot_stellar_dens(param):
     )
     plt.clf()
 
-    fig, axs = plt.subplots(1, 1, figsize=(8, 10))
+    fig, axs = plt.subplots(1, 1, figsize=(10, 5))
     cbar = axs.imshow(
         test,
         origin="lower",
@@ -88,7 +90,10 @@ def plot_stellar_dens(param):
     axs.set_ylabel("DEC (deg)")
     axs.set_title("2D Hist of density of MW stars")
     axs.grid()
-    plt.colorbar(cbar,fraction=0.046, pad=0.04, label='density of stars per square arcmin')
+    cbaxes = fig.add_axes([0.9275, 0.126, 0.02, 0.750])
+    fig.colorbar(cbar, cax=cbaxes, cmap=cmap, orientation='vertical', label='density of stars per square arcmin')
+
+    # plt.colorbar(cbar,fraction=0.046, pad=0.04, label='density of stars per square arcmin')
     #  plt.savefig(output_dir + '/ftp.png')
     plt.show()
 
@@ -506,7 +511,7 @@ def general_plots(star_clusters_simulated, output_dir):
         unpack=True,
     )
     rhl_pc = 1.7 * R_EXP
-    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -550,8 +555,8 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
@@ -562,22 +567,22 @@ def general_plots(star_clusters_simulated, output_dir):
     #     if MAG_ABS_V[i] < 0.0:
     #         ax3.plot([MASS[i], MASS[i]],
     #                  [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.2)
-    ax3.set_xlabel("mass(Msun)")
-    ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend(loc=3)
+    #ax3.set_xlabel("mass(Msun)")
+    #ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+    #             0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    #ax3.legend(loc=3)
     # plt.savefig(output_dir + '/hist_MV.png')
-    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
-    ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax4.set_xlim([0, 2500])
-    ax4.set_ylim([np.min(N), np.max(N)])
-    ax4.scatter(rhl_pc, N, label='Sim')
-    ax4.legend(loc=1)
+    ax3.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax3.set_ylabel(r"$N_{stars}\ before\ filtering$")
+    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
+    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.scatter(rhl_pc, N, label='Sim')
+    ax3.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
     #################################################
-    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -621,34 +626,34 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
     ax2.set_title('Simulated Clusters before filter by crowding')
 
-    ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
+    #ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
     # ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='darkred')
     # for i, j in enumerate(MASS):
     #     if MAG_ABS_V[i] < 0.0:
     #         ax3.plot([MASS[i], MASS[i]],
     #                  [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.2)
-    ax3.set_xlabel("mass(Msun)")
-    ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend(loc=3)
+    #ax3.set_xlabel("mass(Msun)")
+    #ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+    #             0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    #ax3.legend(loc=3)
     # plt.savefig(output_dir + '/hist_MV.png')
-    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
-    ax4.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax4.set_xlim([0, 2500])
-    ax4.set_ylim([np.min(N), np.max(N)])
-    ax4.scatter(rhl_pc, N, label='Sim', color='r')
-    ax4.legend(loc=1)
+    ax3.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax3.set_ylabel(r"$N_{stars}\ before\ filtering$")
+    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
+    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.scatter(rhl_pc, N, label='Sim', color='r')
+    ax3.legend(loc=1)
     plt.show()
     plt.close()
     #####################################################
-    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
     # ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
     #             MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -692,35 +697,35 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
     ax2.set_title('Simulated Clusters after filter by crowding')
 
     # ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
-    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
+    #ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
     # for i, j in enumerate(MASS):
     #     if MAG_ABS_V[i] < 0.0:
     #         ax3.plot([MASS[i], MASS[i]],
     #                  [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='darkred', lw=0.2)
-    ax3.set_xlabel("mass(Msun)")
-    ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend(loc=3)
-    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
-    ax4.set_ylabel(r"$N_{stars}\ after\ filtering$")
-    ax4.set_xlim([0, 2500])
-    ax4.set_ylim([np.min(N), np.max(N)])
-    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
-    ax4.legend(loc=1)
+    #ax3.set_xlabel("mass(Msun)")
+    #ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+    #             0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    #ax3.legend(loc=3)
+    ax3.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax3.set_ylabel(r"$N_{stars}\ after\ filtering$")
+    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
+    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
+    ax3.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
 
     # Before and after filtering stars
-    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(22, 5))
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 5))
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
                 MAG_ABS_V[MAG_ABS_V < 0.0], color='r', label='Sim')
     ax1.scatter(1.7 * R_EXP[MAG_ABS_V < 0.0],
@@ -764,33 +769,33 @@ def general_plots(star_clusters_simulated, output_dir):
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
     ax2.plot(np.logspace(np.log10(28), np.log10(28000), 10, endpoint=True),
              np.linspace(1, -14, 10, endpoint=True), color="b", ls=":")
-    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=55)
-    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=55)
+    ax2.text(300, -7.9, r"$\mu_V=27\ mag/arcsec$", rotation=45)
+    ax2.text(400, -4.2, r"$\mu_V=31\ mag/arcsec$", rotation=45)
     ax2.set_xscale("log")
     ax2.set_xlim([0.4, 4000])
     ax2.set_ylim([1, -14])
     ax2.set_title('Simulated Clusters after filter by crowding')
     
-    ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
-    ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
-    for i, j in enumerate(MASS):
-        if MAG_ABS_V[i] < 0.0:
-            ax3.plot([MASS[i], MASS[i]],
-                     [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='k', lw=0.2)
-    ax3.set_xlabel("mass(Msun)")
-    ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
-    ax3.legend(loc=3)
-    ax4.set_xlabel(r"$r_{1/2}$ (pc))")
-    ax4.set_ylabel(r"$N_{stars}\ before/after\ filtering$")
-    ax4.set_xlim([0, 2500])
-    ax4.set_ylim([np.min(N), np.max(N)])
+    #ax3.scatter(MASS, MAG_ABS_V, label='Sim', color='r')
+    #ax3.scatter(MASS, MAG_ABS_V_CLEAN, label='Sim filt', color='k')
+    #for i, j in enumerate(MASS):
+    #    if MAG_ABS_V[i] < 0.0:
+    #        ax3.plot([MASS[i], MASS[i]],
+    #                 [MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], color='k', lw=0.2)
+    #ax3.set_xlabel("mass(Msun)")
+    #ax3.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+    #             0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    #ax3.legend(loc=3)
+    ax3.set_xlabel(r"$r_{1/2}$ (pc))")
+    ax3.set_ylabel(r"$N_{stars}\ before/after\ filtering$")
+    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
+    ax3.set_ylim([np.min(N), np.max(N)])
     for i, j in enumerate(rhl_pc):
-        ax4.plot([rhl_pc[i], rhl_pc[i]],
+        ax3.plot([rhl_pc[i], rhl_pc[i]],
                      [N[i], N_f[i]], color='darkred', lw=0.2)
-    ax4.scatter(rhl_pc, N, label='Sim', color='red')
-    ax4.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
-    ax4.legend(loc=1)
+    ax3.scatter(rhl_pc, N, label='Sim', color='red')
+    ax3.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
+    ax3.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
@@ -863,7 +868,7 @@ def plot_ftp(param):
     axs.set_ylim([dec_min, dec_max])
     axs.set_xlabel("RA (deg)")
     axs.set_ylabel("DEC (deg)")
-    axs.set_title("2D Histogram of stars of stars on Footprint Map")
+    axs.set_title("Distribution of clusters into the sky and footprint map")
     axs.grid()
     plt.legend(loc=1)
     #  plt.savefig(output_dir + '/ftp.png')
@@ -1054,36 +1059,43 @@ def plots_ang_size(param, FeH_iso):
     ax6.legend()
     ax6.set_title('Visible Mass X Star counts')
 
-    ax7.hist(Mv_DG, bins=20, range=(-16, 0.0),
-             histtype="stepfilled", label="DG", color="b", alpha=0.5,
+    ax7.hist(Mv_DG, bins=20, range=(-16, 2.0),
+             histtype="step", label="DG", color="g", alpha=0.5,
+             density=True, #weights=np.repeat(0.9*len(MAG_ABS_V_CLEAN)/len(Mv_DG), len(Mv_DG)),
+             lw=2)
+    ax7.hist(Mv_GC, bins=20, range=(-16, 2.0),
+             histtype="step", label="GC", color="b",
+             density=True, #weights=np.repeat(0.9*len(MAG_ABS_V_CLEAN)/len(Mv_GC), len(Mv_GC)),
+             lw=2)
+    ax7.hist(MAG_ABS_V, bins=20, range=(-16, 2.0), histtype="stepfilled",
+             label="Sim", color="r", ls="--", alpha=0.5, lw=2,
              density=True)
-    ax7.hist(Mv_GC, bins=20, range=(-16, 0.0),
-             histtype="step", label="GC", color="k",
-             density=True)
-    ax7.hist(MAG_ABS_V, bins=20, range=(-16, 0.0), histtype="step",
-             label="Sim", color="r", ls="--", alpha=0.5,
-             density=True)
-    ax7.hist(MAG_ABS_V_CLEAN, bins=20, range=(-16, 0.0), histtype="stepfilled",
-             label="Sim filt", color="darkred", ls="--", alpha=0.5,
-             density=True)
+    ax7.hist(MAG_ABS_V_CLEAN, bins=20, range=(-16, 2.0), histtype="step",
+             label="Sim filt", color="darkred", ls="--", alpha=0.5, density=True, stacked=True)
     ax7.set_xlabel(r"$M_V$")
-    ax7.set_ylabel("Likelihood")
+    ax7.set_ylabel("Fraction")
     ax7.legend(loc=2)
     ax7.set_title('Histogram of Absolute Magnitude (V band)')
+    weights = np.ones_like(rhl_pc_DG) / len(rhl_pc_DG)
+    ax8.hist(rhl_pc_DG, bins=20, histtype="step",
+             range=(0, 400), label="DG", color="g", alpha=0.5,
+             weights=weights, lw=2)
 
-    ax8.hist(rhl_pc_DG, bins=20, histtype="stepfilled",
-             range=(10, 2400), label="DG", color="b", alpha=0.5,
-             density=True)
+    weights = np.ones_like(rhl_pc_GC) / len(rhl_pc_GC)
+
     ax8.hist(rhl_pc_GC, bins=20, histtype="step",
-             range=(10, 2400), label="GC", color="k",
-             density=True)
+             range=(0, 400), label="GC", color="b",
+             weights=weights, lw=2)
+    weights = np.ones_like(RHL_PC_SIM) / len(RHL_PC_SIM)
+
     ax8.hist(RHL_PC_SIM, bins=20, histtype="stepfilled", range=(
-             10, 2400), label="Sim", color="r", ls="--", alpha=0.5,
-             density=True)
+             0, 400), label="Sim filt", color="red", ls="--", alpha=0.5,
+             weights=weights, lw=2)
+    ax8.set_ylabel("Fraction")
     ax8.set_xlabel(r"$r_{1/2}$[pc]")
     ax8.legend(loc=1)
     # ax8.set_xscale('log')
-    ax8.set_yscale('log')
+    # ax8.set_yscale('log')
     ax8.set_title(r'Histogram of $r_{1/2}$ (parsecs)')
 
     ax9.hist(np.repeat(FeH_iso, len(MAG_ABS_V)), bins=20, range=(-3, 1.0),
@@ -1289,8 +1301,8 @@ def plot_err(param, sample):
 def compare_filtering(file_sim_clus):
     N, N_f = np.loadtxt(file_sim_clus, usecols=(1,4), unpack=True)
     perc = 100*N_f / N
-    plt.hist(perc)
-    plt.xlabel('Percentage of removed stars when filtering')
+    plt.hist(perc, bins=40)
+    plt.xlabel('Percentage of remaining stars (after filtering)')
     plt.ylabel('#Clusters')
     plt.xlim([0,100])
     plt.show()

@@ -530,8 +530,9 @@ def general_plots(star_clusters_simulated, output_dir):
     ax1.set_xlabel(r"$r_{1/2}$ (pc))")
     ax1.set_xlim([np.min(1.7 * R_EXP[MAG_ABS_V < 0.0]) - 0.1,
                  np.max(1.7 * R_EXP[MAG_ABS_V < 0.0]) + 0.1])
-    ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    #ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
+    #             0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax1.set_ylim([1.0, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax1.set_xscale("log")
     ax1.legend()
 
@@ -574,10 +575,11 @@ def general_plots(star_clusters_simulated, output_dir):
     # plt.savefig(output_dir + '/hist_MV.png')
     ax3.set_xlabel(r"$r_{1/2}$ (pc))")
     ax3.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
-    ax3.set_ylim([np.min(N), np.max(N)])
-    ax3.scatter(rhl_pc, N, label='Sim')
+    ax3.set_xlim([0.4, 4000])
+    ax3.set_ylim([0., 1.1*np.max(N)])
+    ax3.scatter(rhl_pc, N, label='Sim', color='r')
     ax3.legend(loc=1)
+    ax3.set_xscale("log")
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
@@ -601,8 +603,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax1.set_xlabel(r"$r_{1/2}$ (pc))")
     ax1.set_xlim([np.min(1.7 * R_EXP[MAG_ABS_V < 0.0]) - 0.1,
                  np.max(1.7 * R_EXP[MAG_ABS_V < 0.0]) + 0.1])
-    ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax1.set_ylim([1., np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax1.set_xscale("log")
     ax1.legend()
 
@@ -646,9 +647,10 @@ def general_plots(star_clusters_simulated, output_dir):
     # plt.savefig(output_dir + '/hist_MV.png')
     ax3.set_xlabel(r"$r_{1/2}$ (pc))")
     ax3.set_ylabel(r"$N_{stars}\ before\ filtering$")
-    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
-    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.set_xlim([0.4, 4000])
+    ax3.set_ylim([0., 1.1*np.max(N)])
     ax3.scatter(rhl_pc, N, label='Sim', color='r')
+    ax3.set_xscale("log")
     ax3.legend(loc=1)
     plt.show()
     plt.close()
@@ -672,8 +674,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax1.set_xlabel(r"$r_{1/2}$ (pc))")
     # ax1.set_xlim([np.min(1.7 * R_EXP[MAG_ABS_V < 0.0]) - 0.1,
     #              np.max(1.7 * R_EXP[MAG_ABS_V < 0.0]) + 0.1])
-    ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax1.set_ylim([1.0, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax1.set_xscale("log")
     ax1.legend()
 
@@ -716,11 +717,12 @@ def general_plots(star_clusters_simulated, output_dir):
     #ax3.legend(loc=3)
     ax3.set_xlabel(r"$r_{1/2}$ (pc))")
     ax3.set_ylabel(r"$N_{stars}\ after\ filtering$")
-    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
-    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.set_xlim([0.4, 4000])
+    ax3.set_ylim([0., 1.1*np.max(N)])
     ax3.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
     ax3.legend(loc=1)
     # plt.savefig(output_dir + '/hist_MV.png')
+    ax3.set_xscale("log")
     plt.show()
     plt.close()
 
@@ -744,8 +746,7 @@ def general_plots(star_clusters_simulated, output_dir):
     ax1.set_xlabel(r"$r_{1/2}$ (pc))")
     # ax1.set_xlim([np.min(1.7 * R_EXP[MAG_ABS_V < 0.0]) - 0.1,
     #              np.max(1.7 * R_EXP[MAG_ABS_V < 0.0]) + 0.1])
-    ax1.set_ylim([np.max(MAG_ABS_V_CLEAN[MAG_ABS_V < 0.0]) +
-                 0.1, np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
+    ax1.set_ylim([1., np.min(MAG_ABS_V[MAG_ABS_V < 0.0]) - 0.1])
     ax1.set_xscale("log")
     ax1.legend()
     
@@ -788,14 +789,15 @@ def general_plots(star_clusters_simulated, output_dir):
     #ax3.legend(loc=3)
     ax3.set_xlabel(r"$r_{1/2}$ (pc))")
     ax3.set_ylabel(r"$N_{stars}\ before/after\ filtering$")
-    ax3.set_xlim([0, 1.1*np.max(rhl_pc)])
-    ax3.set_ylim([np.min(N), np.max(N)])
+    ax3.set_xlim([0.4, 4000])
+    ax3.set_ylim([0., 1.1*np.max(N)])
     for i, j in enumerate(rhl_pc):
         ax3.plot([rhl_pc[i], rhl_pc[i]],
                      [N[i], N_f[i]], color='darkred', lw=0.2)
     ax3.scatter(rhl_pc, N, label='Sim', color='red')
     ax3.scatter(rhl_pc, N_f, label='Sim Filt', color='k')
     ax3.legend(loc=1)
+    ax3.set_xscale("log")
     # plt.savefig(output_dir + '/hist_MV.png')
     plt.show()
     plt.close()
@@ -907,8 +909,8 @@ def plots_ang_size(param, FeH_iso):
 
     globals().update(param)
 
-    hp_sample_un, NSTARS, MAG_ABS_V, NSTARS_CLEAN, MAG_ABS_V_CLEAN, r_exp, mass, dist = np.loadtxt(
-        star_clusters_simulated, usecols=(0, 1, 2, 4, 5, 11, 14, 15), unpack=True
+    hp_sample_un, NSTARS, MAG_ABS_V, NSTARS_CLEAN, MAG_ABS_V_CLEAN, r_exp, dist = np.loadtxt(
+        star_clusters_simulated, usecols=(0, 1, 2, 4, 5, 11, 15), unpack=True
     )
 
     for i in hp_sample_un:
@@ -963,8 +965,8 @@ def plots_ang_size(param, FeH_iso):
 
     name_DG, ra_DG, dec_DG, dist_kpc_DG, Mv_DG, rhl_pc_DG, FeH_DG, name_GC, R_MW_GC, FeH_GC, mM_GC, Mv_GC, rhl_pc_GC, dist_kpc_GC, rhl_arcmin_GC = read_real_cat()
 
-    hp_sample_un, NSTARS, MAG_ABS_V, NSTARS_CLEAN, MAG_ABS_V_CLEAN, RA_pix, DEC_pix, r_exp, ell, pa, mass, dist = np.loadtxt(
-        star_clusters_simulated, usecols=(0, 1, 2, 4, 5, 9, 10, 11, 12, 13, 14, 15), unpack=True)
+    hp_sample_un, NSTARS, MAG_ABS_V, NSTARS_CLEAN, MAG_ABS_V_CLEAN, RA_pix, DEC_pix, r_exp, ell, pa, dist = np.loadtxt(
+        star_clusters_simulated, usecols=(0, 1, 2, 4, 5, 9, 10, 11, 12, 13, 15), unpack=True)
 
     ang_size_DG = 60. * (180. / np.pi) * \
         np.arctan(rhl_pc_DG / (1000. * dist_kpc_DG))
@@ -1048,16 +1050,16 @@ def plots_ang_size(param, FeH_iso):
     ax5.legend()
     ax5.set_title('Distances X Angular sizes')
 
-    for i, j in enumerate(mass):
+    for i, j in enumerate(MAG_ABS_V):
         if MAG_ABS_V[i] < 0.0:
-            ax6.plot([mass[i], mass[i]], [NSTARS[i], NSTARS_CLEAN[i]],
+            ax6.plot([MAG_ABS_V[i], MAG_ABS_V_CLEAN[i]], [NSTARS[i], NSTARS_CLEAN[i]],
                      color='darkred', lw=0.2)
-    ax6.scatter(mass, NSTARS, label='Sim', color='r')
-    ax6.scatter(mass, NSTARS_CLEAN, label='Sim filt', color='darkred')
-    ax6.set_xlabel("MASS(MSun)")
+    ax6.scatter(MAG_ABS_V, NSTARS, label='Sim', color='r')
+    ax6.scatter(MAG_ABS_V_CLEAN, NSTARS_CLEAN, label='Sim filt', color='darkred')
+    ax6.set_xlabel(r"$M_V$")
     ax6.set_ylabel("N stars")
     ax6.legend()
-    ax6.set_title('Visible Mass X Star counts')
+    ax6.set_title('MV X Star counts')
 
     ax7.hist(Mv_DG, bins=20, range=(-16, 2.0),
              histtype="step", label="DG", color="g", alpha=0.5,
@@ -1123,7 +1125,6 @@ def plots_ang_size(param, FeH_iso):
     ax10.grid()
     ax10.set_title('Galactocentric distances X Metalicity')
 
-    # plt.savefig(output_plots + '/hist_mass.png')
     plt.suptitle("Physical features of 58 Dwarf Gal + 152 GC + " +
                  str(len(hp_sample_un)) + " Simulations", fontsize=16)
     f.tight_layout()

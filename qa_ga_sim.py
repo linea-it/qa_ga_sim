@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import numpy as np
 from astropy.coordinates import SkyCoord
 from astropy import units as u
@@ -6,12 +8,12 @@ import astropy.io.fits as fits
 from astropy.io.fits import getdata
 from pathlib import Path
 import healpy as hp
-import sqlalchemy, json, os, sys, glob
+import json, os, sys, glob
 from qa_ga_sim import (
     export_results
 )
 
-confg_qa = "qa_ga_sim.json"
+confg_qa = "/lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/qa_ga_sim.json"
 
 with open(confg_qa) as fstream:
     param_qa = json.load(fstream)
@@ -27,4 +29,4 @@ os.system('jupyter nbconvert --execute --to html --EmbedImagesPreprocessor.embed
 
 os.makedirs(os.path.dirname(export_file), exist_ok=True)
 
-os.system('cp qa_ga_sim.html ' + export_file)
+os.system('cp /lustre/t1/cl/lsst/gawa_project/adriano.pieres/qa_ga_sim/qa_ga_sim.html ' + export_file)
